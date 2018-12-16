@@ -10,3 +10,9 @@
 ```sh
 ./up-docker-compose-local.sh
 ```
+
+## Testing
+
+```sh
+vendor/bin/phpunit
+```

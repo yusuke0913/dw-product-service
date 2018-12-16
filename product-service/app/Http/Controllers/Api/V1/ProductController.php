@@ -22,4 +22,46 @@ class ProductController extends Controller
             'products' => $products,
         ]);
     }
+
+    /**
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * $param string $id
+     * @return \Illuminate\Http\Response
+     */
+    public function detail(Request $request, string $id)
+    {
+        $product = Product::find($id);
+        return response()->json([
+            'product' => $product,
+        ]);
+    }
+
+    /**
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * $param int $size
+     * @return \Illuminate\Http\Response
+     */
+    public function size(Request $request, int $size)
+    {
+        $products = Product::where('size', $size)->get();
+        return response()->json([
+            'products' => $products,
+        ]);
+    }
+
+    /**
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function collection(Request $request, $collectionId)
+    {
+        $products = Product::where('collection_id', $collectionId)->get();
+        return response()->json([
+            'products' => $products
+        ]);
+    }
 }

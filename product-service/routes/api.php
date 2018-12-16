@@ -13,15 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::prefix('/v1/collections')
-    ->namespace('Api\V1')
-    ->group(function () {
-        Route::get('/', 'CollectionController@index');
-    });
+Route::group(
+    [
+        'prefix' => '/v1',
+        'namespace' => 'Api\V1',
+    ],
+    function () {
+        // collection
+        Route::get('/collections', 'CollectionController@index');
 
-
-Route::prefix('/v1/products')
-    ->namespace('Api\V1')
-    ->group(function () {
-        Route::get('/', 'ProductController@index');
-    });
+        // product
+        Route::get('/products', 'ProductController@index');
+        Route::get('/products/detail/{id}', 'ProductController@detail');
+        Route::get('/products/size/{size}', 'ProductController@size');
+        Route::get('/products/collection/{collectionId}', 'ProductController@collection');
+    }
+);

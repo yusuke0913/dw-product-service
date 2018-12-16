@@ -8,19 +8,21 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CollectionTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    public function test_Request_WithNonParameter_ReturnAllList()
     {
         $response = $this->get('/api/v1/collections');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'collections' => [],
+                'collections' => [
+                    self::$_collectionJsonStructure,
+                ],
             ])
         ;
     }
+
+    private static $_collectionJsonStructure = [
+        'id',
+    ];
+
 }
