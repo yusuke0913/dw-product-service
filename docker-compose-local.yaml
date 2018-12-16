@@ -1,0 +1,10 @@
+version: "3"
+services:
+  product-service-php:
+    volumes:
+      - ./product-service:/var/www/html
+    env_file: ./product-service//docker.product-service-php/.env
+
+  product-service-nginx:
+    volumes:
+      - ./product-service/docker.product-service-nginx/default.conf:/etc/nginx/conf.d/default.conf

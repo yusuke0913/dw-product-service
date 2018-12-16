@@ -1,0 +1,31 @@
+version: "3"
+services:
+  product-service-php:
+    build:
+      context: ./product-service
+      dockerfile: ./docker.product-service-php/Dockerfile.product-service-php
+    container_name: product-service-php
+    volumes:
+      - product-service-php-fpm-socket-volume:/var/run
+    links:
+      - product-service-db
+
+  product-service-nginx:
+    build:
+      context: ./product-service
+      dockerfile: ./docker.product-service-nginx/Dockerfile.product-service-nginx
+    container_name: product-service-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - product-service-php-fpm-socket-volume:/var/run
+
+  product-service-db:
+    build:
+      context: ./product-service
+      dockerfile: ./docker.product-service-db/Dockerfile.product-service-db
+    env_file: ./product-service//docker.product-service-db/.env
+    container_name: product-service-db
+
+volumes:
+  ? product-service-php-fpm-socket-volume
