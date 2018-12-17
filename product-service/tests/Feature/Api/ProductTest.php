@@ -43,7 +43,7 @@ class ProductTest extends TestCase
      */
     public function test_RequestDetail_WithExistsId_ReturnTheDetail()
     {
-        $productId = '38WRDDIBTC';
+        $productId = 'C99900239';
         $response = $this->get("/api/v1/products/detail/${productId}");
 
         $response->assertStatus(200)
@@ -107,7 +107,7 @@ class ProductTest extends TestCase
      */
     public function test_RequestCollection_WithExistsCollectionId_ReturnList()
     {
-        $collectionId = 'Bernie Barton';
+        $collectionId = 'classic-petite';
         $response = $this->get("/api/v1/products/collection/${collectionId}");
 
         $response->assertStatus(200)

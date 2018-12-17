@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Services\AdminApi\ProductsJsonParserService;
 
 class ImportTest extends TestCase
 {
@@ -36,10 +37,12 @@ class ImportTest extends TestCase
 
     public function test_RequestByPost_WithCollectJsonParameter_Return200()
     {
-        $json = File::get("database/seeds/products.json");
+        $json = ProductsJsonParserService::loadSampleProductsJson();
         $param = json_decode($json, true);
 
-        $response = $this->post('/admin-api/v1/import', $param);
+        // $response = $this->post('/admin-api/v1/import', $param);
+        $response = $this->json('POST', '/admin-api/v1/import', $param);
+
         $response->assertStatus(200);
     }
 }

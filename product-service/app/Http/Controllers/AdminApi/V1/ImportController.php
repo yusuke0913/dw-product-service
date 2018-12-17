@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminApi\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\AdminApi\ProductsJsonParserService;
 
 class ImportController extends Controller
 {
@@ -14,13 +15,19 @@ class ImportController extends Controller
      */
     public function import(Request $request)
     {
-        $importedProducts = json_decode($request->getContent(), true);
-        if ($importedProducts === null) {
+        $productsJson = $request->getContent();
+        // \Log::info(var_export($productsJson, true));
+
+        $parserService = new ProductsJsonParserService();
+        [$collections, $products] = $parserService->parseJson($productsJson);
+
+        if ($collections === null) {
             throw new \Exception('INVALID_PARAMETER');
         }
 
         return response()->json([
-            'importedProducts' => $importedProducts,
+            'collections' => $collections,
+            'products' => $products,
         ]);
     }
 }
