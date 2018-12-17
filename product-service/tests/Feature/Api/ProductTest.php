@@ -8,6 +8,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductTest extends TestCase
 {
+    /**
+     * @group product
+     */
     public function test_RequestAllList_WithNonParameter_ReturnAllList()
     {
         $response = $this->get('/api/v1/products');
@@ -21,6 +24,9 @@ class ProductTest extends TestCase
         ;
     }
 
+    /**
+     * @group product
+     */
     public function test_RequestDetail_WithNotExistsId_ReturnNull()
     {
         $productId = 'hoge';
@@ -32,6 +38,9 @@ class ProductTest extends TestCase
         ]);
     }
 
+    /**
+     * @group product
+     */
     public function test_RequestDetail_WithExistsId_ReturnTheDetail()
     {
         $productId = '38WRDDIBTC';
@@ -44,6 +53,9 @@ class ProductTest extends TestCase
         ;
     }
 
+    /**
+     * @group product
+     */
     public function test_RequestSize_WithNonExistsSize_ReturnEmptyList()
     {
         $size = -1;
@@ -56,6 +68,9 @@ class ProductTest extends TestCase
         ;
     }
 
+    /**
+     * @group product
+     */
     public function test_RequestSize_WithExistsSize_ReturnTheSameSizeProductList()
     {
         $size = 28;
@@ -72,6 +87,9 @@ class ProductTest extends TestCase
         ;
     }
 
+    /**
+     * @group product
+     */
     public function test_RequestCollection_WithNotExistsId_ReturnEmptyList()
     {
         $collectionId = 'NotExistsId';
@@ -84,11 +102,14 @@ class ProductTest extends TestCase
         ;
     }
 
+    /**
+     * @group product
+     */
     public function test_RequestCollection_WithExistsCollectionId_ReturnList()
     {
         $collectionId = 'Bernie Barton';
         $response = $this->get("/api/v1/products/collection/${collectionId}");
-        
+
         $response->assertStatus(200)
             ->assertJsonStructure(
                 [

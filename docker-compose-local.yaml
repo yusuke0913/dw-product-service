@@ -3,7 +3,7 @@ services:
   product-service-php:
     volumes:
       - ./product-service:/var/www/html
-    env_file: ./product-service//docker.product-service-php/.env
+      - ./product-service//docker.product-service-php/.env_local:/var/www/html/.env
 
   product-service-nginx:
     volumes:

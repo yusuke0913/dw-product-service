@@ -8,6 +8,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CollectionTest extends TestCase
 {
+    /**
+     * @group collection
+     */
     public function test_Request_WithNonParameter_ReturnAllList()
     {
         $response = $this->get('/api/v1/collections');
