@@ -45,9 +45,11 @@ class ProductController extends Controller
      */
     public function size(Request $request, int $size)
     {
-        $products = Product::where('size', $size)->get();
+        $products = Product::where('size', $size)->get()->map(function ($product) {
+            return $product->id;
+        });
         return response()->json([
-            'products' => $products,
+            'productIds' => $products,
         ]);
     }
 
@@ -59,9 +61,12 @@ class ProductController extends Controller
      */
     public function collection(Request $request, $collectionId)
     {
-        $products = Product::where('collection_id', $collectionId)->get();
+        $products = Product::where('collection_id', $collectionId)->get()->map(function ($product) {
+            return $product->id;
+        });
+
         return response()->json([
-            'products' => $products
+            'productIds' => $products
         ]);
     }
 }

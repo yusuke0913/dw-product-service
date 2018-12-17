@@ -6,14 +6,16 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CollectionTest extends TestCase
+class CollectionFeatureTest extends TestCase
 {
+    const NUM_OF_COLLECTION = 2;
+
     /**
      * @group collection
      */
     public function test_Request_WithNonParameter_ReturnAllList()
     {
-        $response = $this->get('/api/v1/collections');
+        $response = $this->json('GET', '/api/v1/collections');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -21,11 +23,11 @@ class CollectionTest extends TestCase
                     self::$_collectionJsonStructure,
                 ],
             ])
+            ->assertJsonCount(self::NUM_OF_COLLECTION, 'collections');
         ;
     }
 
     private static $_collectionJsonStructure = [
         'id',
     ];
-
 }

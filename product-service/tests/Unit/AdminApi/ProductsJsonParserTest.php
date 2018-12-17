@@ -13,11 +13,11 @@ class ProductsJsonParserTest extends TestCase
 {
 
     /**
-     * @group ProductsJsonParser
+     * @group productsJsonParser
      *
      * @return void
      */
-    public function test_LoadJson_WithNonJsonFormat_ReturnNull()
+    public function test_LoadJson_WithText_ReturnNull()
     {
         $parserService = new ProductsJsonParserService();
         $dummyText = 'dummyText';
@@ -26,7 +26,21 @@ class ProductsJsonParserTest extends TestCase
     }
 
     /**
-     * @group ProductsJsonParser
+     * @group productsJsonParser
+     *
+     * @return void
+     */
+    public function test_LoadJson_WithEmptyArray_ReturnNull()
+    {
+        $parserService = new ProductsJsonParserService();
+        $incorrectJson = json_encode([]);
+
+        $loadedProducts = $parserService->parseJson($incorrectJson);
+        $this->assertNull($loadedProducts);
+    }
+
+    /**
+     * @group productsJsonParser
      *
      * @return void
      */
@@ -42,7 +56,7 @@ class ProductsJsonParserTest extends TestCase
     }
 
     /**
-     * @group ProductsJsonParser
+     * @group productsJsonParser
      *
      * @return void
      */

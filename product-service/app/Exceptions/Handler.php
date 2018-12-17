@@ -46,12 +46,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        // return \Response::json(
-        //     [
-        //                 'Error' => true,
-        //                 'ErrorMessage' => 'INVALID_REQUEST',
-        //     ]
-        // );
         return parent::render($request, $exception);
     }
 }

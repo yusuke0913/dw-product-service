@@ -51,10 +51,9 @@ class ProductsJsonParserService
 
     private function isValidDataFormat($data)
     {
-        if (!is_array($data)) {
+        if (!is_array($data) || empty($data)) {
             return false;
         }
-
 
         foreach ($data as $row) {
             if (!isset($row['collection']) || !isset($row['size']) || !isset($row['products'])) {

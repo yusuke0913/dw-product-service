@@ -6,14 +6,16 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ProductTest extends TestCase
+class ProductFeatureTest extends TestCase
 {
+    const NUM_OF_SAMPLE_PRODUCTS = 51;
+
     /**
      * @group product
      */
     public function test_RequestAllList_WithNonParameter_ReturnAllList()
     {
-        $response = $this->get('/api/v1/products');
+        $response = $this->json('GET', '/api/v1/products');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -21,6 +23,7 @@ class ProductTest extends TestCase
                     self::$_productJsonStructure,
                 ],
             ])
+            ->assertJsonCount(self::NUM_OF_SAMPLE_PRODUCTS, 'products');
         ;
     }
 
@@ -30,7 +33,7 @@ class ProductTest extends TestCase
     public function test_RequestDetail_WithNotExistsId_ReturnNull()
     {
         $productId = 'hoge';
-        $response = $this->get("/api/v1/products/detail/${productId}");
+        $response = $this->json('GET', "/api/v1/products/detail/${productId}");
 
         $response->assertStatus(200)
             ->assertJson([
@@ -44,7 +47,7 @@ class ProductTest extends TestCase
     public function test_RequestDetail_WithExistsId_ReturnTheDetail()
     {
         $productId = 'C99900239';
-        $response = $this->get("/api/v1/products/detail/${productId}");
+        $response = $this->json('GET', "/api/v1/products/detail/${productId}");
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -59,31 +62,35 @@ class ProductTest extends TestCase
     public function test_RequestSize_WithNonExistsSize_ReturnEmptyList()
     {
         $size = -1;
-        $response = $this->get("/api/v1/products/size/${size}");
+        $response = $this->json('GET', "/api/v1/products/size/${size}");
 
         $response->assertStatus(200)
             ->assertJson([
-                'products' => [],
+                'productIds' => [],
             ])
+            ->assertJsonCount(0, 'productIds');
         ;
     }
+
+    const SIZE_28 = 28;
+    const NUM_OF_PRODUCTS_WITH_SIZE_MAP = [ self::SIZE_28 => 26];
 
     /**
      * @group product
      */
     public function test_RequestSize_WithExistsSize_ReturnTheSameSizeProductList()
     {
-        $size = 28;
-        $response = $this->get("/api/v1/products/size/${size}");
+        $size = self::SIZE_28;
+        $expectingNum = self::NUM_OF_PRODUCTS_WITH_SIZE_MAP[$size];
+        $response = $this->json('GET', "/api/v1/products/size/${size}");
 
         $response->assertStatus(200)
             ->assertJsonStructure(
                 [
-                    'products' => [
-                        self::$_productJsonStructure,
-                    ]
+                    'productIds' => []
                 ]
             )
+            ->assertJsonCount($expectingNum, 'productIds');
         ;
     }
 
@@ -93,31 +100,35 @@ class ProductTest extends TestCase
     public function test_RequestCollection_WithNotExistsId_ReturnEmptyList()
     {
         $collectionId = 'NotExistsId';
-        $response = $this->get("/api/v1/products/collection/${collectionId}");
+        $response = $this->json('GET', "/api/v1/products/collection/${collectionId}");
 
         $response->assertStatus(200)
             ->assertJson([
-                'products' => [],
+                'productIds' => [],
             ])
+            ->assertJsonCount(0, 'productIds');
         ;
     }
+
+    const COLLECTION_ID_CLASSIC_PETITE = "classic-petite";
+
+    const NUM_OF_PRODUCTS_WITH_COLLECTION_ID_MAP = [ self::COLLECTION_ID_CLASSIC_PETITE => 43];
 
     /**
      * @group product
      */
     public function test_RequestCollection_WithExistsCollectionId_ReturnList()
     {
-        $collectionId = 'classic-petite';
-        $response = $this->get("/api/v1/products/collection/${collectionId}");
+        $collectionId = self::COLLECTION_ID_CLASSIC_PETITE;
+        $response = $this->json('GET', "/api/v1/products/collection/${collectionId}");
 
         $response->assertStatus(200)
             ->assertJsonStructure(
                 [
-                    'products' => [
-                        self::$_productJsonStructure,
-                    ]
+                    'productIds' => []
                 ]
             )
+            ->assertJsonCount(43, 'productIds');
         ;
     }
 
@@ -126,6 +137,5 @@ class ProductTest extends TestCase
         'name',
         'image',
         'size',
-        'collection_id',
     ];
 }

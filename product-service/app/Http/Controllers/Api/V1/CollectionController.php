@@ -9,6 +9,7 @@ use App\Model\Collection;
 class CollectionController extends Controller
 {
 
+
     /**
      *
      * @param  \Illuminate\Http\Request  $request
