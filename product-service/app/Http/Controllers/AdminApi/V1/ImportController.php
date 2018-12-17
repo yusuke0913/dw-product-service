@@ -27,8 +27,13 @@ class ImportController extends Controller
             throw new \App\Exceptions\InvalidParameterException();
         }
 
+        $createdCollections = collect();
+        $createdProducts = collect();
+        $updatedCollections = collect();
+        $updatedProducts = collect();
+
         try {
-            \DB::transaction(function () use ($collectionMap, $productMap) {
+            \DB::transaction(function () use ($collectionMap, $productMap, $createdCollections, $createdProducts, $updatedCollections, $updatedProducts) {
                 // Lock to import only one data at a time
                 $importLock = ImportLock::lock();
 
@@ -37,35 +42,47 @@ class ImportController extends Controller
 
                 foreach ($collectionMap as $collectionId => $collection) {
                     if (!isset($currentCollectionMap[$collectionId])) {
-                        $collection->save();
+                        $createdCollections[] = $collection;
                     }
                 }
+
+                Collection::bulkInsert($createdCollections);
 
                 foreach ($productMap as $productId => $product) {
                     if (isset($currentProductMap[$productId])) {
                         $currentProduct = $currentProductMap[$productId];
 
+                        $shouldUpdate = false;
                         if ($currentProduct->name !== $product->name) {
+                            $shouldUpdate = true;
                             $currentProduct->name = $product->name;
                         }
 
                         if ($currentProduct->image !== $product->image) {
+                            $shouldUpdate = true;
                             $currentProduct->image = $product->image;
                         }
 
                         if ($currentProduct->size !== $product->size) {
+                            $shouldUpdate = true;
                             $currentProduct->size = $product->size;
                         }
 
                         if ($currentProduct->collection_id !== $product->collection_id) {
+                            $shouldUpdate = true;
+
                             $currentProduct->collection_id = $product->collection_id;
                         }
 
-                        $currentProduct->save();
+                        if ($shouldUpdate) {
+                            $currentProduct->save();
+                            $updatedProducts[] = $currentProduct;
+                        }
                     } else {
-                        $product->save();
+                        $createdProducts[] = $product;
                     }
                 }
+                Product::bulkInsert($createdProducts);
             });
         } catch (\Exception $e) {
             \DB::rollback();
@@ -73,8 +90,10 @@ class ImportController extends Controller
         }
 
         return response()->json([
-            'collections' => $collectionMap,
-            'products' => $productMap,
+            'createdCollections' => $createdCollections,
+            'createdProducts' => $createdProducts,
+            'updatedCollections' => $updatedCollections,
+            'updatedProducts' => $updatedProducts,
         ]);
     }
 }

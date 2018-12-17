@@ -20,6 +20,7 @@ class Product extends BaseModel
             'name' => $this->name,
             'image' => $this->image,
             'size' => $this->size,
+            'collection_id' => $this->collection_id,
         ];
     }
 }
