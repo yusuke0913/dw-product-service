@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\AdminApi\ProductsJsonParserService;
 use App\Model\Collection;
 use App\Model\Product;
+use App\Model\ImportLock;
 
 class ImportController extends Controller
 {
@@ -28,7 +29,8 @@ class ImportController extends Controller
 
         try {
             \DB::transaction(function () use ($collectionMap, $productMap) {
-                //todo lock
+                // Lock to import only one data at a time
+                $importLock = ImportLock::lock();
 
                 $currentCollectionMap = Collection::allByMapWithKeys();
                 $currentProductMap = Product::allByMapWithKeys();

@@ -12,8 +12,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            // CollectionTableSeeder::class,
             ProductsJsonSeeder::class,
+            ImportLockSeeder::class,
         ]);
     }
 }
