@@ -1,0 +1,23 @@
+apiVersion: skaffold/v1alpha2
+kind: Config
+build:
+  tagPolicy:
+    sha256: {}
+  artifacts:
+    - imageName: kekegiang/product-service-nginx
+      workspace: ../product-service
+      docker:
+        dockerfilePath: ./docker.product-service-nginx/Dockerfile.product-service-nginx
+    - imageName: kekegiang/product-service-php
+      workspace: ../product-service
+      docker:
+        dockerfilePath: ./docker.product-service-php/Dockerfile.product-service-php
+
+  local:
+    skipPush: true
+deploy:
+  kubectl:
+    manifests:
+      - ./api/*.yaml
+      - ./api-migration-job/*.yaml
+      - ./mysql/*.yaml

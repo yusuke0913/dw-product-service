@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: product-service-api-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/ssl-redirect: “true”
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+    - hosts:
+        - dev-product-service.localhost
+      secretName: tls-certificate
+  rules:
+    - host: dev-product-service.localhost
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: product-service-api-service
+              servicePort: 80

@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: product-service-api-migration-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: php
+          image: kekegiang/product-service-php:latest
+          envFrom:
+            - configMapRef:
+                name: product-service-api-config-env
+          command: ["php", "artisan", "migrate"]
+      restartPolicy: Never
+  backoffLimit: 4

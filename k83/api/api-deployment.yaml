@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: product-service-api-deployment
+spec:
+  selector:
+    matchLabels:
+      app: product-service-api
+  replicas: 1
+  # strategy:
+  #   type: RollingUpdate
+  # rollingUpdate:
+  #   maxSurge: 100%
+  #   maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: product-service-api
+    spec:
+      volumes:
+        - name: var-run-volume
+          emptyDir: {}
+
+      containers:
+        - name: nginx
+          image: kekegiang/product-service-nginx:latest
+          # resources:
+            # requests:
+            #   cpu: 100m
+            #   memory: 100Mi
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: var-run-volume
+              mountPath: /var/run
+
+        - name: php
+          image: kekegiang/product-service-php:latest
+          # resources:
+          #   requests:
+          #     cpu: 100m
+          #     memory: 100Mi
+          envFrom:
+            - configMapRef:
+                name: product-service-api-config-env
+          volumeMounts:
+            - name: var-run-volume
+              mountPath: /var/run

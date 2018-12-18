@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: product-service-mysql-env
+data:
+  #
+  MYSQL_ROOT_PASSWORD: "product-service"
+  MYSQL_DATABASE: "product-service"
+  MYSQL_USER: "product-service"
+  MYSQL_PASSWORD: "product-service"
