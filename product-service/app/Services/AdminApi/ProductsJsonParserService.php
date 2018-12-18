@@ -11,42 +11,13 @@ class ProductsJsonParserService
 
     public function parseJson($json)
     {
-        $loadedData = json_decode($json, true);
+        $result = json_decode($json, true);
 
-        if (!$this->isValidDataFormat($loadedData)) {
+        if (!$this->isValidDataFormat($result)) {
             return null;
         }
 
-        $collectionMap = [];
-        $productMap = [];
-        foreach ($loadedData as $collectionData) {
-            $collectionId = $collectionData['collection'];
-            $size = (int) $collectionData['size'];
-            $productListData = $collectionData['products'];
-
-            if (!isset($collectionMap[$collectionId])) {
-                $collection = new Collection();
-                $collection->id = $collectionId;
-                $collectionMap[$collectionId] = $collection;
-            }
-
-            foreach ($productListData as $productData) {
-                $productId = $productData['sku'];
-                $productImage = $productData['image'];
-                $productName = $productData['name'];
-
-                $product = new Product();
-                $product->id = $productId;
-                $product->name = $productName;
-                $product->image = $productImage;
-                $product->size = $size;
-                $product->collection_id = $collectionId;
-
-                $productMap[$productId] = $product;
-            }
-        }
-
-        return [$collectionMap, $productMap];
+        return $result;
     }
 
     private function isValidDataFormat($data)
@@ -64,8 +35,14 @@ class ProductsJsonParserService
         return true;
     }
 
+    public static function loadJsonFile($filePath)
+    {
+        return \File::get($filePath);
+    }
+
     public static function loadSampleProductsJson()
     {
-        return \File::get(self::$_SAMPLE_PRODUCTS_JSON_FILE_PATH);
+        return self::loadJsonFile(self::$_SAMPLE_PRODUCTS_JSON_FILE_PATH);
     }
+
 }

@@ -1,0 +1,18 @@
+[
+    {
+        "collection": "classic-petite",
+        "size": 28,
+        "products": [
+            {
+                "image": "Dummy-dw-petite-28-melrose-black-cat.png",
+                "name": "Dummy-Classic Petite Melrose 28mm (Black)",
+                "sku": "Dummy-C99900217"
+            },
+            {
+                "image": "Dummy-dw-petite-28-sterling-black-cat.png",
+                "name": "Dummy-Classic Petite Sterling 28mm (Black)",
+                "sku": "Dummy-C99900218"
+            }
+        ]
+    }
+]

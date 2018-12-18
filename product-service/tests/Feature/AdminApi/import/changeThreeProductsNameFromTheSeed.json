@@ -1,0 +1,275 @@
+[
+    {
+        "collection": "classic-petite",
+        "size": 28,
+        "products": [
+            {
+                "image": "dw-petite-28-melrose-black-cat.png",
+                "name": "Dummy-Classic Petite Melrose 28mm (Black)",
+                "sku": "C99900217"
+            },
+            {
+                "image": "dw-petite-28-sterling-black-cat.png",
+                "name": "Classic Petite Sterling 28mm (Black)",
+                "sku": "C99900218"
+            },
+            {
+                "image": "dw-petite-28-melrose-white-cat.png",
+                "name": "Classic Petite Melrose 28mm (White)",
+                "sku": "C99900219"
+            },
+            {
+                "image": "dw-petite-28-sheffield-black-rg-cat.png",
+                "name": "Classic Petite Sheffield 28mm Rose Gold (Black)",
+                "sku": "C99900224"
+            },
+            {
+                "image": "dw-petite-28-st-mawes-black-rg-cat.png",
+                "name": "Classic Petite St Mawes 28mm Rose Gold (Black)",
+                "sku": "C99900225"
+            },
+            {
+                "image": "dw-petite-28-york-black-rg-cat.png",
+                "name": "Classic Petite York 28mm Rose Gold (Black)",
+                "sku": "C99900226"
+            },
+            {
+                "image": "dw-petite-28-bristol-rg-cat.png",
+                "name": "Classic Petite Bristol 28mm Rose Gold (White)",
+                "sku": "C99900227"
+            },
+            {
+                "image": "dw-petite-28-durham-rg-cat.png",
+                "name": "Classic Petite Durham 28mm Rose Gold (White)",
+                "sku": "C99900228"
+            },
+            {
+                "image": "dw-petite-28-reading-rg-cat.png",
+                "name": "Classic Petite Reading 28mm Rose Gold (White)",
+                "sku": "C99900229"
+            },
+            {
+                "image": "dw-petite-28-sheffield-rg-cat.png",
+                "name": "Classic Petite Sheffield 28mm Rose Gold (White)",
+                "sku": "C99900230"
+            },
+            {
+                "image": "dw-petite-28-st-mawes-rg-cat_1.png",
+                "name": "Classic Petite St Mawes 28mm Rose Gold (White)",
+                "sku": "C99900231"
+            },
+            {
+                "image": "dw-petite-28-york-rg-cat.png",
+                "name": "Classic Petite York 28mm Rose Gold (White)",
+                "sku": "C99900232"
+            },
+            {
+                "image": "dw-petite-28-reading-black-s-cat.png",
+                "name": "Classic Petite Reading 28mm Silver (Black)",
+                "sku": "C99900235"
+            },
+            {
+                "image": "dw-petite-28-sheffield-black-s-cat.png",
+                "name": "Classic Petite Sheffield 28mm Silver (Black)",
+                "sku": "C99900236"
+            },
+            {
+                "image": "dw-petite-28-st-mawes-black-s-cat.png",
+                "name": "Classic Petite St Mawes 28mm Silver (Black)",
+                "sku": "C99900237"
+            },
+            {
+                "image": "dw-petite-28-york-black-s-cat.png",
+                "name": "Classic Petite York 28mm Silver (Black)",
+                "sku": "C99900238"
+            },
+            {
+                "image": "dw-petite-28-bristol-s-cat.png",
+                "name": "Classic Petite Bristol 28mm Silver (White)",
+                "sku": "C99900239"
+            },
+            {
+                "image": "dw-petite-28-durham-s-cat.png",
+                "name": "Classic Petite Durham 28mm Silver (White)",
+                "sku": "C99900240"
+            },
+            {
+                "image": "dw-petite-28-reading-s-cat.png",
+                "name": "Classic Petite Reading 28mm Silver (White)",
+                "sku": "C99900241"
+            },
+            {
+                "image": "dw-petite-28-sheffield-s-cat.png",
+                "name": "Classic Petite Sheffield 28mm Silver (White)",
+                "sku": "C99900242"
+            },
+            {
+                "image": "dw-petite-28-st-mawes-s-cat.png",
+                "name": "Classic Petite St Mawes 28mm Silver (White)",
+                "sku": "C99900243"
+            },
+            {
+                "image": "dw-petite-28-york-s-cat.png",
+                "name": "Classic Petite York 28mm Silver (White)",
+                "sku": "C99900244"
+            },
+            {
+                "image": "dw-petite-28-cornwall-black-rg-cat.png",
+                "name": "Classic Petite Cornwall 28mm Rose Gold (Black)",
+                "sku": "C99900247"
+            },
+            {
+                "image": "dw-petite-28-cornwall-black-s-cat.png",
+                "name": "Classic Petite Cornwall 28mm Silver (Black)",
+                "sku": "C99900248"
+            },
+            {
+                "image": "dw-petite-28-cornwall-rg-cat.png",
+                "name": "Classic Petite Cornwall 28mm Rose Gold (White)",
+                "sku": "C99900251"
+            },
+            {
+                "image": "dw-petite-28-cornwall-s-cat.png",
+                "name": "Classic Petite Cornwall 28mm Silver (White)",
+                "sku": "C99900252"
+            }
+        ]
+    },
+    {
+        "collection": "classic-petite",
+        "size": 32,
+        "products": [
+            {
+                "image": "petit-melrose-black.png",
+                "name": "Dummy-Classic Petite Melrose 32mm (Black)",
+                "sku": "C99900161"
+            },
+            {
+                "image": "dw-petite-durham-rg-cat_1.png",
+                "name": "Classic Petite Durham Rose Gold 32mm (Black)",
+                "sku": "C99900166"
+            },
+            {
+                "image": "dw-petite-reading-rg-cat.png",
+                "name": "Classic Petite Reading Rose Gold 32mm (Black)",
+                "sku": "C99900167"
+            },
+            {
+                "image": "dw-petite-sheffield-rg-cat.png",
+                "name": "Classic Petite Sheffield Rose Gold 32mm (Black)",
+                "sku": "C99900168"
+            },
+            {
+                "image": "dw-petite-st-mawes-rg-cat.png",
+                "name": "Classic Petite St Mawes Rose Gold 32mm (Black)",
+                "sku": "C99900169"
+            },
+            {
+                "image": "dw-petite-york-rg-cat.png",
+                "name": "Classic Petite York Rose Gold 32mm (Black)",
+                "sku": "C99900170"
+            },
+            {
+                "image": "dw-petite-bristol-rg-white-cat_1_1.png",
+                "name": "Classic Petite Bristol Rose Gold 32mm (White)",
+                "sku": "C99900171"
+            },
+            {
+                "image": "dw-petite-durham-rg-white-cat_1.png",
+                "name": "Classic Petite Durham Rose Gold 32mm (White)",
+                "sku": "C99900172"
+            },
+            {
+                "image": "dw-petite-reading-rg-white-cat.png",
+                "name": "Classic Petite Reading Rose Gold 32mm (White)",
+                "sku": "C99900173"
+            },
+            {
+                "image": "dw-petite-sheffield-rg-white-cat.png",
+                "name": "Classic Petite Sheffield Rose Gold 32mm (White)",
+                "sku": "C99900174"
+            },
+            {
+                "image": "dw-petite-st-mawes-rg-white-cat.png",
+                "name": "Classic Petite St Mawes Rose Gold 32mm (White)",
+                "sku": "C99900175"
+            },
+            {
+                "image": "dw-petite-york-rg-white-cat.png",
+                "name": "Classic Petite York Rose Gold 32mm (White)",
+                "sku": "C99900176"
+            },
+            {
+                "image": "dw-petite-bristol-s-black-cat.png",
+                "name": "Classic Petite Bristol Silver 32mm (Black)",
+                "sku": "C99900177"
+            },
+            {
+                "image": "dw-petite-reading-s-white-cat.png",
+                "name": "Classic Petite Reading Silver 32mm (White)",
+                "sku": "C99900185"
+            },
+            {
+                "image": "dw-petite-sheffield-s-white-cat.png",
+                "name": "Classic Petite Sheffield Silver 32mm (White)",
+                "sku": "C99900186"
+            },
+            {
+                "image": "dw-petite-st-mawes-s-white-cat.png",
+                "name": "Classic Petite St Mawes Silver 32mm (White)",
+                "sku": "C99900187"
+            },
+            {
+                "image": "dw-petite-york-s-white-cat.png",
+                "name": "Classic Petite York Silver 32mm (White)",
+                "sku": "C99900188"
+            }
+        ]
+    },
+    {
+        "collection": "dapper",
+        "size": 38,
+        "products": [
+            {
+                "image": "dp38-sheffield-rg_3.png",
+                "name": "Dummy-Dapper Sheffield 38mm Rose Gold",
+                "sku": "RT88400084"
+            },
+            {
+                "image": "dp38-sheffield-s_1.png",
+                "name": "Dapper Sheffield 38mm Silver",
+                "sku": "RT88400088"
+            },
+            {
+                "image": "dp38-stmawes-rg_1_1.png",
+                "name": "Dapper St Mawes 38mm Rose Gold",
+                "sku": "RT88400083"
+            },
+            {
+                "image": "dp38-stmawes-s_1.png",
+                "name": "Dapper St Mawes 38mm Silver",
+                "sku": "RT88400087"
+            },
+            {
+                "image": "dp38-york.rg.png",
+                "name": "Dapper York 38mm Rose Gold",
+                "sku": "RT88400085"
+            },
+            {
+                "image": "dp38-york-s_1.png",
+                "name": "Dapper York 38mm Silver",
+                "sku": "RT88400089"
+            },
+            {
+                "image": "dp38-bristol-rg_1.png",
+                "name": "Dapper Bristol 38mm Rose Gold",
+                "sku": "RT88400086"
+            },
+            {
+                "image": "dp38-bristol-s_3.png",
+                "name": "Dapper Bristol 38mm Silver",
+                "sku": "RT88400090"
+            }
+        ]
+    }
+]

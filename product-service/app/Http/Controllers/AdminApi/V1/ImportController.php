@@ -21,9 +21,9 @@ class ImportController extends AdminApiBaseController
         $productsJson = $request->getContent();
 
         $parserService = new ProductsJsonParserService();
-        [$collectionMap, $productMap] = $parserService->parseJson($productsJson);
+        $productsData = $parserService->parseJson($productsJson);
 
-        if ($collectionMap === null) {
+        if ($productsData === null) {
             throw new \App\Exceptions\InvalidParameterException();
         }
 
@@ -33,56 +33,80 @@ class ImportController extends AdminApiBaseController
         $updatedProducts = collect();
 
         try {
-            \DB::transaction(function () use ($collectionMap, $productMap, $createdCollections, $createdProducts, $updatedCollections, $updatedProducts) {
+            \DB::transaction(function () use ($productsData, $createdCollections, $createdProducts, $updatedCollections, $updatedProducts) {
                 // Lock to import only one data at a time
                 $importLock = ImportLock::lock();
 
-                $currentCollectionMap = Collection::allByMapWithKeys();
-                $currentProductMap = Product::allByMapWithKeys();
+                $collectionMap = Collection::allByMapWithKeys();
+                $productMap = Product::allByMapWithKeys();
 
-                foreach ($collectionMap as $collectionId => $collection) {
-                    if (!isset($currentCollectionMap[$collectionId])) {
-                        $createdCollections[] = $collection;
+                foreach ($productsData as $collectionData) {
+                    $collectionId = $collectionData['collection'];
+                    $size = (int) $collectionData['size'];
+                    $productListData = $collectionData['products'];
+
+                    if (!$collectionMap->has($collectionId)) {
+                        $collection = new Collection();
+                        $collection->id = $collectionId;
+                        $collectionMap[$collectionId] = $collection;
+                    }
+
+                    $bulkUpdateProductIds = collect();
+                    foreach ($productListData as $productData) {
+                        $productId = $productData['sku'];
+                        $productImage = $productData['image'];
+                        $productName = $productData['name'];
+
+                        if ($productMap->has($productId)) {
+                            $currentProduct = $productMap[$productId];
+
+                            if ($currentProduct->collection_id != $collectionId || $currentProduct->size != $size) {
+                                $bulkUpdateProductIds[] = $productId;
+                                $updatedProducts[$productId] = $currentProduct;
+                                // logger("productId=${productId}  collectionId=${collectionId} size=${size}   currentProduct=${currentProduct}");
+                            }
+
+                            $shouldUpdate = false;
+
+                            if ($currentProduct->name !== $productName) {
+                                $shouldUpdate = true;
+                                $currentProduct->name = $productName;
+                            }
+
+                            if ($currentProduct->image !== $productImage) {
+                                $shouldUpdate = true;
+                                $currentProduct->image = $productImage;
+                            }
+
+                            if ($shouldUpdate) {
+                                $currentProduct->save();
+                                $updatedProducts[$productId] = $currentProduct;
+                            }
+                        } else {
+                            $product = new Product();
+                            $product->id = $productId;
+                            $product->name = $productName;
+                            $product->image = $productImage;
+                            $product->size = $size;
+                            $product->collection_id = $collectionId;
+
+                            $createdProducts[$productId] = $product;
+                        }
+                    }
+
+                    if ($bulkUpdateProductIds->isNotEmpty()) {
+                        Product::WhereIn('id', $bulkUpdateProductIds)
+                            ->update(['size' => $size, 'collection_id' => $collectionId]);
                     }
                 }
 
-                Collection::bulkInsert($createdCollections);
-
-                foreach ($productMap as $productId => $product) {
-                    if (isset($currentProductMap[$productId])) {
-                        $currentProduct = $currentProductMap[$productId];
-
-                        $shouldUpdate = false;
-                        if ($currentProduct->name !== $product->name) {
-                            $shouldUpdate = true;
-                            $currentProduct->name = $product->name;
-                        }
-
-                        if ($currentProduct->image !== $product->image) {
-                            $shouldUpdate = true;
-                            $currentProduct->image = $product->image;
-                        }
-
-                        if ($currentProduct->size !== $product->size) {
-                            $shouldUpdate = true;
-                            $currentProduct->size = $product->size;
-                        }
-
-                        if ($currentProduct->collection_id !== $product->collection_id) {
-                            $shouldUpdate = true;
-
-                            $currentProduct->collection_id = $product->collection_id;
-                        }
-
-                        if ($shouldUpdate) {
-                            $currentProduct->save();
-                            $updatedProducts[] = $currentProduct;
-                        }
-                    } else {
-                        $createdProducts[] = $product;
-                    }
+                if ($createdCollections->isNotEmpty()) {
+                    Collection::bulkInsert($createdCollections);
                 }
-                Product::bulkInsert($createdProducts);
+
+                if ($createdProducts->isNotEmpty()) {
+                    Product::bulkInsert($createdProducts);
+                }
             });
         } catch (\Exception $e) {
             \DB::rollback();

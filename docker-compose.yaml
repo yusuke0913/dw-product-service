@@ -4,6 +4,7 @@ services:
     build:
       context: ./product-service
       dockerfile: ./docker.product-service-php/Dockerfile.product-service-php
+    image: product-service-php
     container_name: product-service-php
     volumes:
       - product-service-php-fpm-socket-volume:/var/run
@@ -14,6 +15,7 @@ services:
     build:
       context: ./product-service
       dockerfile: ./docker.product-service-nginx/Dockerfile.product-service-nginx
+    image: product-service-nginx
     container_name: product-service-nginx
     ports:
       - "8080:80"
@@ -24,8 +26,9 @@ services:
     build:
       context: ./product-service
       dockerfile: ./docker.product-service-db/Dockerfile.product-service-db
-    env_file: ./product-service//docker.product-service-db/.env
+    image: product-service-db
     container_name: product-service-db
+    env_file: ./product-service//docker.product-service-db/.env
 
 volumes:
   ? product-service-php-fpm-socket-volume

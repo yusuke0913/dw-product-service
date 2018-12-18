@@ -19,6 +19,11 @@ class BaseModel extends Model
         ];
     }
 
+    /**
+     *
+     *   @param self $models
+     * * @return \Illuminate\Database\Eloquent\Collection
+     */
     public static function bulkInsert($models)
     {
         $attributes = collect();

@@ -1,10 +1,7 @@
 #!/bin/sh
 
 echo "refreshing migration ...."
-php artisan migrate:refresh
-
-echo "executing db:seed ..."
-php artisan db:seed
+php artisan migrate:refresh --seed
 
 echo "executing phpunit ...."
 vendor/bin/phpunit

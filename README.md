@@ -25,11 +25,22 @@ To prepare for a large scale requests environment, I adapted Docker to set up a 
 
 ## Installation
 
+- Setting up docker containers
 ```sh
 ./up-docker-compose-local.sh
 ```
 
-## ssh on docker container 
+- Initializing mysql database.
+```sh
+docker exec -it product-service-php sh
+php artisan migrate --seed
+```
+
+## ssh on mysql container
+```sh
+docker exec -it product-service-db sh
+mysql -uproduct-service -p product-service
+```
 
 ### ssh on php-fpm docker container
 ```sh
