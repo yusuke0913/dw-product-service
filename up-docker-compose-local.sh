@@ -2,7 +2,7 @@
 
 echo "docker-compose up with local environment ..."
 
-docker-compose --project-name product-service \
+docker-compose \
     -f docker-compose.yaml \
     -f docker-compose-local.yaml \
     up

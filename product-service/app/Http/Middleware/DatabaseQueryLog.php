@@ -15,7 +15,7 @@ class DatabaseQueryLog
      */
     public function handle($request, Closure $next)
     {
-        if (!app()->isLocal()) {
+        if (! (app()->isLocal() || app()->runningUnitTests())) {
             return $next($request);
         }
 
