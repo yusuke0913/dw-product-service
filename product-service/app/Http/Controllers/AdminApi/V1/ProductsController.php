@@ -5,7 +5,6 @@ namespace App\Http\Controllers\AdminApi\V1;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\AdminApi\ProductsJsonParserService;
-use App\Model\Collection;
 use App\Model\Product;
 use App\Model\ImportLock;
 
@@ -37,19 +36,12 @@ class ProductsController extends AdminApiBaseController
                 // Lock to import only one data at a time
                 $importLock = ImportLock::lock();
 
-                $collectionMap = Collection::allByMapWithKeys();
                 $productMap = Product::allByMapWithKeys();
 
                 foreach ($productsData as $collectionData) {
                     $collectionId = $collectionData['collection'];
                     $size = (int) $collectionData['size'];
                     $productListData = $collectionData['products'];
-
-                    if (!$collectionMap->has($collectionId)) {
-                        $collection = new Collection();
-                        $collection->id = $collectionId;
-                        $collectionMap[$collectionId] = $collection;
-                    }
 
                     $bulkUpdateProductIds = collect();
                     foreach ($productListData as $productData) {
@@ -114,10 +106,7 @@ class ProductsController extends AdminApiBaseController
         }
 
         return response()->json([
-            'createdCollections' => $createdCollections,
-            'createdProducts' => $createdProducts,
-            'updatedCollections' => $updatedCollections,
-            'updatedProducts' => $updatedProducts,
+            'status' => 200,
         ]);
     }
 }

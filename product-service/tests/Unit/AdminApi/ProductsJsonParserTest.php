@@ -6,7 +6,6 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\AdminApi\ProductsJsonParserService;
-use App\Model\Collection;
 use App\Model\Product;
 
 class ProductsJsonParserTest extends TestCase

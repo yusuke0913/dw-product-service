@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\AdminApi\ProductsJsonParserService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Model\Product;
 
 class ProductTest extends TestCase
 {
@@ -19,7 +20,7 @@ class ProductTest extends TestCase
     /**
      * @group import
      */
-    public function test_RequestByGET_Return405()
+    public function test_RequestByGet_Return405()
     {
         $response = $this->getJson(route('admin-api.v1.products.import'));
 
@@ -66,16 +67,14 @@ class ProductTest extends TestCase
         $seedJson = ProductsJsonParserService::loadSeedProductsJson();
         $param = json_decode($seedJson, true);
 
+        $beforeAllProducts = Product::all();
+
         $response = $this->postJson(route('admin-api.v1.products.import'), $param);
 
-        $response->assertOk()
-            ->assertJson([
-                'createdCollections' => [],
-                'createdProducts' => [],
-                'updatedCollections' => [],
-                'updatedProducts' => [],
-            ]);
-        ;
+        $afterAllProducts = Product::all();
+
+        $response->assertOk();
+        $this->assertEquals($beforeAllProducts, $afterAllProducts);
     }
 
     /**
@@ -83,63 +82,25 @@ class ProductTest extends TestCase
      */
     public function test_RequestByPost_WithAddTwoProductsJson_Return200()
     {
-        $productsParam =
-            [
-                [
-                    'sk' => 'Dummy-C99900217',
-                    "name" =>  "Dummy-Classic Petite Melrose 28mm (Black)",
-                    "image" => "Dummy-dw-petite-28-melrose-black-cat.png",
-                    "size" =>  28,
-                    "collection_id" => "classic-petite"
-                ],
-                [
-                    'sk' => 'Dummy-C99900218',
-                    "name" => "Dummy-Classic Petite Sterling 28mm (Black)",
-                    "image" => "Dummy-dw-petite-28-sterling-black-cat.png",
-                    "size" =>  28,
-                    "collection_id" => "classic-petite"
-                ],
-            ]
-        ;
+        $json = ProductsJsonParserService::loadJsonFile("tests/Feature/AdminApi/import/addTwoProducts.json");
+        $param = json_decode($json, true);
 
-        $param = [
-            [
-            'collection' => 'classic-petite',
-            'size' => 28,
-            'products' => $productsParam,
-            ]
-        ];
+        $targetProductIds = collect($param)->map(function ($row) {
+            return collect($row['products'])->pluck('sku');
+        });
 
-        // $json = ProductsJsonParserService::loadJsonFile("tests/Feature/AdminApi/import/addTwoProducts.json");
-        // $param = json_decode($json, true);
+        $beforeAllProducts = Product::all();
+        $beforeTargetProducts = Product::whereIn('id', $targetProductIds)->get();
 
-        fwrite(STDOUT, json_encode($param));
         $response = $this->postJson(route('admin-api.v1.products.import'), $param);
 
-        $response->assertOk()
-            ->assertJson([
-                'createdCollections' => [],
-                'createdProducts' => $param,
-                // 'createdProducts' => [
-                //     'Dummy-C99900217' => [
-                //         'id' => 'Dummy-C99900217',
-                //         "name" =>  "Dummy-Classic Petite Melrose 28mm (Black)",
-                //         "image" => "Dummy-dw-petite-28-melrose-black-cat.png",
-                //         "size" =>  28,
-                //         "collection_id" => "classic-petite"
-                //     ],
-                //     'Dummy-C99900218' => [
-                //         'id' => 'Dummy-C99900218',
-                //         "name" => "Dummy-Classic Petite Sterling 28mm (Black)",
-                //         "image" => "Dummy-dw-petite-28-sterling-black-cat.png",
-                //         "size" =>  28,
-                //         "collection_id" => "classic-petite"
-                //     ],
-                // ],
-                'updatedCollections' => [],
-                'updatedProducts' => [],
-            ]);
-        ;
+        $afterAllProducts = Product::all();
+        $afterTargetProducts = Product::whereIn('id', $targetProductIds)->get();
+
+        $response->assertOk();
+        $this->assertEquals(0, $beforeTargetProducts->count());
+        $this->assertNotEquals($beforeAllProducts, $afterAllProducts);
+        $this->assertEquals($targetProductIds->count(), $afterTargetProducts->count());
     }
 
     /**
@@ -150,37 +111,21 @@ class ProductTest extends TestCase
         $json = ProductsJsonParserService::loadJsonFile("tests/Feature/AdminApi/import/changeThreeProductsNameFromTheSeed.json");
         $param = json_decode($json, true);
 
+        $targetProductIds = collect($param)->map(function ($row) {
+            return collect($row['products'])->pluck('sku');
+        });
+
+        $beforeAllProducts = Product::all();
+        $beforeTargetProducts = Product::whereIn('id', $targetProductIds)->get();
+
         $response = $this->postJson(route('admin-api.v1.products.import'), $param);
 
-        $response->assertOk()
-            ->assertJson([
-                'createdCollections' => [],
-                'createdProducts' => [],
-                'updatedCollections' => [],
-                'updatedProducts' => [
-                    'C99900217' => [
-                        'id' => 'C99900217',
-                        "name" => "Dummy-Classic Petite Melrose 28mm (Black)",
-                        "image" => "dw-petite-28-melrose-black-cat.png",
-                        "size" =>  28,
-                        "collection_id" => "classic-petite"
-                    ],
-                    'C99900161' => [
-                        'id' => 'C99900161',
-                        "name" => "Dummy-Classic Petite Melrose 32mm (Black)",
-                        "image" => "petit-melrose-black.png",
-                        "size" =>  32,
-                        "collection_id" => "classic-petite"
-                    ],
-                    'RT88400084' => [
-                        'id' => 'RT88400084',
-                        "name" => "Dummy-Dapper Sheffield 38mm Rose Gold",
-                        "image" => "dp38-sheffield-rg_3.png",
-                        "size" =>  38,
-                        "collection_id" => "dapper"
-                    ],
-                ]
-            ]);
-        ;
+        $afterTargetProducts = Product::whereIn('id', $targetProductIds)->get();
+        $afterAllProducts = Product::all();
+
+        $response->assertOk();
+
+        $this->assertNotEquals($beforeAllProducts, $afterAllProducts);
+        $this->assertNotEquals($beforeTargetProducts, $afterTargetProducts);
     }
 }

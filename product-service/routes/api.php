@@ -13,12 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::name('admin.')->group(function () {
-    Route::get('users', function () {
-        return json_encode(['hoge' =>  true]);
-    })->name('users');
-});
-
 // Route::name('admin.')->group(function () {
 Route::group(
     [
@@ -47,8 +41,5 @@ Route::group(
                     ->name('collections');
             }
         );
-
-        // collection
-        Route::get('/collections', 'CollectionController@index');
     }
 );

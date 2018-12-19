@@ -8,11 +8,6 @@ class Product extends BaseModel
 {
     public $incrementing = false;
 
-    public function collection()
-    {
-        return $this->belongsTo(Collection::class);
-    }
-
     public function toArray()
     {
         return [

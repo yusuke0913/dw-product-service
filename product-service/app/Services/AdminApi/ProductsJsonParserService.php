@@ -2,7 +2,6 @@
 
 namespace App\Services\AdminApi;
 
-use App\Model\Collection;
 use App\Model\Product;
 
 class ProductsJsonParserService
@@ -50,5 +49,4 @@ class ProductsJsonParserService
         $json = self::loadSeedProductsJson();
         return $this->parseJson($json);
     }
-
 }

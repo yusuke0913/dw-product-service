@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use App\Services\AdminApi\ProductsJsonParserService;
-use App\Model\Collection;
 use App\Model\Product;
 
 class ProductsJsonSeeder extends Seeder
@@ -25,12 +24,6 @@ class ProductsJsonSeeder extends Seeder
             $size = (int) $collectionData['size'];
             $productListData = $collectionData['products'];
 
-            if (!isset($collectionMap[$collectionId])) {
-                $collection = new Collection();
-                $collection->id = $collectionId;
-                $collectionMap[$collectionId] = $collection;
-            }
-
             foreach ($productListData as $productData) {
                 $productId = $productData['sku'];
                 $productImage = $productData['image'];
@@ -45,10 +38,6 @@ class ProductsJsonSeeder extends Seeder
 
                 $productMap[$productId] = $product;
             }
-        }
-
-        foreach ($collectionMap as $collection) {
-            $collection->save();
         }
 
         foreach ($productMap as $product) {
