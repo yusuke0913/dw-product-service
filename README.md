@@ -21,7 +21,7 @@ To prepare for a large scale requests environment, I adapted Docker to set up a 
 
 ## Dependency
 
-- Docker
+- docker, docker-compose
 
 ## Installation
 
@@ -37,16 +37,21 @@ php artisan migrate --seed
 ```
 
 ## ssh on mysql container
+
 ```sh
+# Please change your environment if you want.
+vi product-service/docker.product-service-db/.env
+
 docker exec -it product-service-db sh
 mysql -uproduct-service -p product-service
 ```
 
 ### ssh on php-fpm docker container
+You can execute php artisan commands and check log files on php-fpm docker container.
+
 ```sh
 docker exec -it product-service-php sh
 ```
-You can execute php artisan commands on php-fpm docker container.
 
 ## Testing
 You need to reset database before executing tests.

@@ -27,8 +27,20 @@ Route::group(
     [
         'prefix' => '/v1',
         'namespace' => 'V1',
+        'as' => 'admin-api.v1.'
     ],
     function () {
-        Route::post('/import', 'ImportController@import');
+
+        // products
+        Route::group(
+            [
+                'prefix' => '/products',
+                'as' => 'products.',
+            ],
+            function () {
+                Route::post('/import', 'ProductsController@import')
+                    ->name('import');
+            }
+        );
     }
 );

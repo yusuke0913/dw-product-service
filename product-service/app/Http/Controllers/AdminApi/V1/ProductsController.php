@@ -9,7 +9,7 @@ use App\Model\Collection;
 use App\Model\Product;
 use App\Model\ImportLock;
 
-class ImportController extends AdminApiBaseController
+class ProductsController extends AdminApiBaseController
 {
     /**
      *

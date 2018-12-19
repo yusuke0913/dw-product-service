@@ -7,7 +7,7 @@ use App\Model\Product;
 
 class ProductsJsonParserService
 {
-    private static $_SAMPLE_PRODUCTS_JSON_FILE_PATH = "database/seeds/products.json";
+    private static $_SEED_PRODUCTS_JSON_FILE_PATH = "database/seeds/products.json";
 
     public function parseJson($json)
     {
@@ -40,9 +40,15 @@ class ProductsJsonParserService
         return \File::get($filePath);
     }
 
-    public static function loadSampleProductsJson()
+    public static function loadSeedProductsJson()
     {
-        return self::loadJsonFile(self::$_SAMPLE_PRODUCTS_JSON_FILE_PATH);
+        return self::loadJsonFile(base_path().'/'.self::$_SEED_PRODUCTS_JSON_FILE_PATH);
+    }
+
+    public function parseSeedProductsData()
+    {
+        $json = self::loadSeedProductsJson();
+        return $this->parseJson($json);
     }
 
 }

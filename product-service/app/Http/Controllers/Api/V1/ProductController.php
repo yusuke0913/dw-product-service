@@ -68,4 +68,23 @@ class ProductController extends ApiBaseController
             'productIds' => $products
         ]);
     }
+
+    /**
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function collections(Request $request)
+    {
+        $collectionIds = Product::distinct('collection_id')->select(['collection_id'])->get()->map(function ($p) {
+            return [ 'id' => $p->collection_id];
+        });
+        return response()->json(
+            [
+                'collections' => $collectionIds,
+            ]
+        );
+    }
 }

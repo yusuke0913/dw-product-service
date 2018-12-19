@@ -13,19 +13,42 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::name('admin.')->group(function () {
+    Route::get('users', function () {
+        return json_encode(['hoge' =>  true]);
+    })->name('users');
+});
+
+// Route::name('admin.')->group(function () {
 Route::group(
     [
         'prefix' => '/v1',
-        'namespace' => 'Api\V1',
+        'namespace' => 'V1',
+        'as' => 'api.v1.'
     ],
     function () {
+
+        // products
+        Route::group(
+            [
+                'prefix' => '/products',
+                'as' => 'products.',
+            ],
+            function () {
+                Route::get('/all', 'ProductController@index')
+                    ->name('all');
+                Route::get('/detail/{id}', 'ProductController@detail')
+                    ->name('detail');
+                Route::get('/size/{size}', 'ProductController@size')
+                    ->name('size');
+                Route::get('/collection/{collectionId}', 'ProductController@collection')
+                    ->name('collection');
+                Route::get('/collections', 'ProductController@collections')
+                    ->name('collections');
+            }
+        );
+
         // collection
         Route::get('/collections', 'CollectionController@index');
-
-        // product
-        Route::get('/products', 'ProductController@index');
-        Route::get('/products/detail/{id}', 'ProductController@detail');
-        Route::get('/products/size/{size}', 'ProductController@size');
-        Route::get('/products/collection/{collectionId}', 'ProductController@collection');
     }
 );

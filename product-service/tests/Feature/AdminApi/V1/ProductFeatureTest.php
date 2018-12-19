@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\AdminApi\V1;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -9,7 +9,7 @@ use App\Services\AdminApi\ProductsJsonParserService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ImportTest extends TestCase
+class ProductTest extends TestCase
 {
     protected function tearDown()
     {
@@ -21,7 +21,7 @@ class ImportTest extends TestCase
      */
     public function test_RequestByGET_Return405()
     {
-        $response = $this->getJson('/admin-api/v1/import');
+        $response = $this->getJson(route('admin-api.v1.products.import'));
 
         $response->assertStatus(405);
     }
@@ -31,7 +31,7 @@ class ImportTest extends TestCase
      */
     public function test_RequestByPost_WithEmptyJson_Return500()
     {
-        $response = $this->postJson('/admin-api/v1/import', []);
+        $response = $this->postJson(route('admin-api.v1.products.import'), []);
 
         $response->assertStatus(500)
             ->assertJson(
@@ -47,7 +47,7 @@ class ImportTest extends TestCase
      */
     public function test_RequestByPost_WithIncorrectJson_Return500()
     {
-        $response = $this->postJson('/admin-api/v1/import', [ "DummyProperty1" => 1, "DummyProperty2" => 2, ]);
+        $response = $this->postJson(route('admin-api.v1.products.import'), [ "DummyProperty1" => 1, "DummyProperty2" => 2, ]);
 
         $response->assertStatus(500)
             ->assertJson(
@@ -63,10 +63,10 @@ class ImportTest extends TestCase
      */
     public function test_RequestByPost_WithTheSameProductsSeedJson_Return200()
     {
-        $seedJson = ProductsJsonParserService::loadSampleProductsJson();
+        $seedJson = ProductsJsonParserService::loadSeedProductsJson();
         $param = json_decode($seedJson, true);
 
-        $response = $this->json('POST', '/admin-api/v1/import', $param);
+        $response = $this->postJson(route('admin-api.v1.products.import'), $param);
 
         $response->assertOk()
             ->assertJson([
@@ -83,30 +83,59 @@ class ImportTest extends TestCase
      */
     public function test_RequestByPost_WithAddTwoProductsJson_Return200()
     {
-        $json = ProductsJsonParserService::loadJsonFile("tests/Feature/AdminApi/import/addTwoProducts.json");
-        $param = json_decode($json, true);
+        $productsParam =
+            [
+                [
+                    'sk' => 'Dummy-C99900217',
+                    "name" =>  "Dummy-Classic Petite Melrose 28mm (Black)",
+                    "image" => "Dummy-dw-petite-28-melrose-black-cat.png",
+                    "size" =>  28,
+                    "collection_id" => "classic-petite"
+                ],
+                [
+                    'sk' => 'Dummy-C99900218',
+                    "name" => "Dummy-Classic Petite Sterling 28mm (Black)",
+                    "image" => "Dummy-dw-petite-28-sterling-black-cat.png",
+                    "size" =>  28,
+                    "collection_id" => "classic-petite"
+                ],
+            ]
+        ;
 
-        $response = $this->json('POST', '/admin-api/v1/import', $param);
+        $param = [
+            [
+            'collection' => 'classic-petite',
+            'size' => 28,
+            'products' => $productsParam,
+            ]
+        ];
+
+        // $json = ProductsJsonParserService::loadJsonFile("tests/Feature/AdminApi/import/addTwoProducts.json");
+        // $param = json_decode($json, true);
+
+        fwrite(STDOUT, json_encode($param));
+        $response = $this->postJson(route('admin-api.v1.products.import'), $param);
 
         $response->assertOk()
             ->assertJson([
                 'createdCollections' => [],
-                'createdProducts' => [
-                    'Dummy-C99900217' => [
-                        'id' => 'Dummy-C99900217',
-                        "name" =>  "Dummy-Classic Petite Melrose 28mm (Black)",
-                        "image" => "Dummy-dw-petite-28-melrose-black-cat.png",
-                        "size" =>  28,
-                        "collection_id" => "classic-petite"
-                    ],
-                    'Dummy-C99900218' => [
-                        'id' => 'Dummy-C99900218',
-                        "name" => "Dummy-Classic Petite Sterling 28mm (Black)",
-                        "image" => "Dummy-dw-petite-28-sterling-black-cat.png",
-                        "size" =>  28,
-                        "collection_id" => "classic-petite"
-                    ],
-                ],
+                'createdProducts' => $param,
+                // 'createdProducts' => [
+                //     'Dummy-C99900217' => [
+                //         'id' => 'Dummy-C99900217',
+                //         "name" =>  "Dummy-Classic Petite Melrose 28mm (Black)",
+                //         "image" => "Dummy-dw-petite-28-melrose-black-cat.png",
+                //         "size" =>  28,
+                //         "collection_id" => "classic-petite"
+                //     ],
+                //     'Dummy-C99900218' => [
+                //         'id' => 'Dummy-C99900218',
+                //         "name" => "Dummy-Classic Petite Sterling 28mm (Black)",
+                //         "image" => "Dummy-dw-petite-28-sterling-black-cat.png",
+                //         "size" =>  28,
+                //         "collection_id" => "classic-petite"
+                //     ],
+                // ],
                 'updatedCollections' => [],
                 'updatedProducts' => [],
             ]);
@@ -121,7 +150,7 @@ class ImportTest extends TestCase
         $json = ProductsJsonParserService::loadJsonFile("tests/Feature/AdminApi/import/changeThreeProductsNameFromTheSeed.json");
         $param = json_decode($json, true);
 
-        $response = $this->json('POST', '/admin-api/v1/import', $param);
+        $response = $this->postJson(route('admin-api.v1.products.import'), $param);
 
         $response->assertOk()
             ->assertJson([

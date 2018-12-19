@@ -63,7 +63,7 @@ class ProductsJsonParserTest extends TestCase
     public function test_LoadJson_WithCorrectJsonFormat_ReturnArray()
     {
         $parserService = new ProductsJsonParserService();
-        $correctJson = ProductsJsonParserService::loadSampleProductsJson();
+        $correctJson = ProductsJsonParserService::loadSeedProductsJson();
         $result = $parserService->parseJson($correctJson);
 
         $this->assertNotNull($correctJson);
