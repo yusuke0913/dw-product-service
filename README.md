@@ -1,40 +1,38 @@
-# product-server
-
-### 1.How do we build and run it? 
-Plase Read Installation section on README.md
-
-### 2.What tools did you use? 
-- Laravel
-- MySQL
-- Docker for local environment.
-
-### 3.Why did you use them? 
-**Why Laravel and MySQL**
-To handle retrieve products and also ensure atomic data updates at a time. It's one of the best choices to use MySQL as database.
-Laravel has many useful features such as database migrations, Eloquent, testing. 
-
-**Why Docker**
-To prepare for a large scale requests environment, I adapted Docker to set up a local environment. I would set up EKS as next step.
-
-### 4.Did you intentionally leave stuff out? In that case, what and why? 
-
-
-## Dependency
-
-- docker, docker-compose
+# product-service
+This product-service is developed in a environment which uses Laravel MySQL, Docker Kubernetes.
 
 ## Installation
 
-- Setting up docker containers
-```sh
-./up-docker-compose-local.sh
+To set up your local environment on Mac, you need to install docker and docker-compose
+
+```
+brew install docker docker-compose docker-machine
 ```
 
-- Initializing mysql database.
+You can also set your kubernetes dev environment. Please check [here](k83/README.md)
+
+## Local dev environment
+You need to up the docker containers and execute database migrations.
+
 ```sh
+# launch the docker containers
+./up-docker-compose-local.sh
+
+# database migration
 docker exec -it product-service-php sh
 php artisan migrate --seed
 ```
+
+## API Documentation
+
+| METHOD        | URL           | Description |
+| ------------- |-------------| -----|
+| GET      | [http://localhost:8080/api/v1/products/all](http://localhost:8080/api/v1/products/all) | A list of all products |
+| GET      | [http://localhost:8080/api/v1/products/detail/${productId}](http://localhost:8080/api/v1/products/detail/C99900161)      | Detailed product information |
+| GET      | [http://localhost:8080/api/v1/products/size/${size}](http://localhost:8080/api/v1/products/size/28)      | A list of IDs of all the products of the same size |
+| GET      | [http://localhost:8080/api/v1/products/collections](http://localhost:8080/api/v1/products/collections) | A list of all collections |
+| GET      | [http://localhost:8080/api/v1/products/collection/${collectionId}](http://localhost:8080/api/v1/products/collection/dapper)      | A list of IDs of all the products in the same collection |
+| POST      | [http://localhost:8080/admin-api/v1/products/import](http://localhost:8080/admin-api/v1/products/import)      | Update products from a passed products json file with post body |
 
 ## ssh on mysql container
 
@@ -55,6 +53,7 @@ docker exec -it product-service-php sh
 
 ## Testing
 You need to reset database before executing tests.
+
 ```sh
 docker exec -it product-service-php sh
 ./tests/run.sh
