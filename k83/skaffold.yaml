@@ -4,11 +4,11 @@ build:
   tagPolicy:
     sha256: {}
   artifacts:
-    - imageName: kekegiang/product-service-nginx
+    - imageName: product-service-nginx
       workspace: ../product-service
       docker:
         dockerfilePath: ./docker.product-service-nginx/Dockerfile.product-service-nginx
-    - imageName: kekegiang/product-service-php
+    - imageName: product-service-php
       workspace: ../product-service
       docker:
         dockerfilePath: ./docker.product-service-php/Dockerfile.product-service-php
@@ -18,6 +18,6 @@ build:
 deploy:
   kubectl:
     manifests:
+      - ./mysql/*.yaml
       - ./api/*.yaml
       - ./api-migration-job/*.yaml
-      - ./mysql/*.yaml

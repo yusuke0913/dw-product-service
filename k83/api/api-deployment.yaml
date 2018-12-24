@@ -23,11 +23,11 @@ spec:
 
       containers:
         - name: nginx
-          image: kekegiang/product-service-nginx:latest
+          image: product-service-nginx:latest
           # resources:
-            # requests:
-            #   cpu: 100m
-            #   memory: 100Mi
+          # requests:
+          #   cpu: 100m
+          #   memory: 100Mi
           ports:
             - containerPort: 80
           volumeMounts:
@@ -35,7 +35,7 @@ spec:
               mountPath: /var/run
 
         - name: php
-          image: kekegiang/product-service-php:latest
+          image: product-service-php:latest
           # resources:
           #   requests:
           #     cpu: 100m

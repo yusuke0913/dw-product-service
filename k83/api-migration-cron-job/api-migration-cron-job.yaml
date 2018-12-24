@@ -1,0 +1,21 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: product-service-api-migration-cron-job
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: php
+              image: product-service-php
+              envFrom:
+                - configMapRef:
+                    name: product-service-api-config-env
+              args:
+                - php
+                - artisan
+                - migrate
+          restartPolicy: OnFailure
