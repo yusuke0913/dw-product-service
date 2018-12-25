@@ -22,4 +22,4 @@ spec:
             - artisan
             - migrate
       restartPolicy: OnFailure
-  backoffLimit: 1
+  backoffLimit: 4
