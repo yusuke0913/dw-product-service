@@ -20,6 +20,9 @@ spec:
       volumes:
         - name: var-run-volume
           emptyDir: {}
+        - name: api-env
+          secret:
+            secretName: api-env
 
       containers:
         - name: nginx
@@ -40,9 +43,9 @@ spec:
           #   requests:
           #     cpu: 100m
           #     memory: 100Mi
-          envFrom:
-            - configMapRef:
-                name: product-service-api-config-env
           volumeMounts:
             - name: var-run-volume
               mountPath: /var/run
+            - name: api-env
+              mountPath: /var/www/html/.env
+              subPath: .env

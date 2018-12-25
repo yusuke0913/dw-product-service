@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: product-service-api-migration-job
+spec:
+  template:
+    spec:
+      volumes:
+        - name: api-env
+          secret:
+            secretName: api-env
+
+      containers:
+        - name: php
+          image: product-service-php
+          volumeMounts:
+            - name: api-env
+              mountPath: /var/www/html/.env
+              subPath: .env
+          args:
+            - php
+            - artisan
+            - migrate
+      restartPolicy: OnFailure
+  backoffLimit: 1

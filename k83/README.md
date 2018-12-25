@@ -46,8 +46,7 @@ skaffold run
 
 
 ```sh
-API_POD=`kubectl get pods | grep product-service-api-deployment | awk '{ print $1 }'`
-kubectl exec -it $API_POD -c php -- sh
+API_POD=`kubectl get pods | grep product-service-api-deployment  | grep Running | awk '{ print $1 }'` && echo "ssh on $API_POD" && kubectl exec -it $API_POD -c php -- sh
 php artisan migrate --seed
 ```
 
@@ -55,7 +54,7 @@ php artisan migrate --seed
 You can access your app by the url below.
 * You can not use 80 port to launch the end point in your Mac envrionment.
 
-[http://dev-product-service.localhost/api/v1/products](http://dev-product-service.localhost/api/v1/products)
+[http://dev-product-service.localhost/api/v1/products/all](http://dev-product-service.localhost/api/v1/products/all)
 
 ## Kubernetes Dashboard
 

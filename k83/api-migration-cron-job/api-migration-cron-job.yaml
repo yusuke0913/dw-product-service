@@ -8,12 +8,18 @@ spec:
     spec:
       template:
         spec:
+          volumes:
+            - name: api-env
+              secret:
+                secretName: api-env
+
           containers:
             - name: php
               image: product-service-php
-              envFrom:
-                - configMapRef:
-                    name: product-service-api-config-env
+              volumeMounts:
+                - name: api-env
+                  mountPath: /var/www/html/.env
+                  subPath: .env
               args:
                 - php
                 - artisan

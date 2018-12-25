@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
+  name: product-service-mysql
 spec:
   selector:
     matchLabels:
@@ -16,14 +16,16 @@ spec:
       containers:
         - image: mysql:5.7
           name: mysql
-          resources:
-            requests:
-              memory: 100Mi
-              cpu: 100m
-            limits:
-              memory: 4000Mi
+          # resources:
+          #   requests:
+          #     memory: 100Mi
+          #     cpu: 100m
+          #   limits:
+          #     memory: 4000Mi
           envFrom:
-            - configMapRef:
+            # - configMapRef:
+            #     name: product-service-mysql-env
+            - secretRef:
                 name: product-service-mysql-env
           ports:
             - containerPort: 3306
