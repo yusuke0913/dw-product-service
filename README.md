@@ -1,5 +1,5 @@
 # product-service
-This product-service is developed in a environment which uses Laravel MySQL, Docker Kubernetes.
+This product-service is developed in the environment which uses Laravel, MySQL, Docker, Kubernetes.
 
 ## Installation
 
@@ -9,10 +9,10 @@ To set up your local environment on Mac, you need to install docker and docker-c
 brew install docker docker-compose docker-machine
 ```
 
-You can also set your kubernetes dev environment. Please check [here](k83/README.md)
+You can also set up by kubernetes. Please check [here](k83/README.md)
 
 ## Local dev environment
-You need to up the docker containers and execute database migrations.
+You need to lanuch the docker containers and execute database migrations.
 
 ```sh
 # launch the docker containers
@@ -25,7 +25,7 @@ php artisan migrate --seed
 
 ## API Documentation
 
-| METHOD        | URL           | Description |
+| Method        | Url           | Description |
 | ------------- |-------------| -----|
 | GET      | [http://localhost:8080/api/v1/products/all](http://localhost:8080/api/v1/products/all) | A list of all products |
 | GET      | [http://localhost:8080/api/v1/products/detail/${productId}](http://localhost:8080/api/v1/products/detail/C99900161)      | Detailed product information |
@@ -44,7 +44,7 @@ docker exec -it product-service-db sh
 mysql -uproduct-service -p product-service
 ```
 
-### ssh on php-fpm docker container
+## ssh on php-fpm docker container
 You can execute php artisan commands and check log files on php-fpm docker container.
 
 ```sh

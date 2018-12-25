@@ -18,7 +18,7 @@ kubectl config use-context docker-for-desktop
 
 ### Install helm
 ```sh
-brew install heml
+brew install helm
 helm init
 helm install --name my-release stable/nginx-ingress
 ```
@@ -62,7 +62,7 @@ You can access your app by the url below.
 cd ./dashboard
 ./run.sh
 
-# copied token to access on clipboard
+# You can paste the token on clipboard to sign in
 ./open_browser.sh
 ```
 [Official document is here(Web UI (Dashboard)](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
