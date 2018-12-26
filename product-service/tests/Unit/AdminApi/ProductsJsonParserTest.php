@@ -20,7 +20,7 @@ class ProductsJsonParserTest extends TestCase
     {
         $parserService = new ProductsJsonParserService();
         $dummyText = 'dummyText';
-        $result = $parserService->parseJson($dummyText);
+        $result = $parserService->parse($dummyText);
         $this->assertNull($result);
     }
 
@@ -34,7 +34,7 @@ class ProductsJsonParserTest extends TestCase
         $parserService = new ProductsJsonParserService();
         $incorrectJson = json_encode([]);
 
-        $result = $parserService->parseJson($incorrectJson);
+        $result = $parserService->parse($incorrectJson);
         $this->assertNull($result);
     }
 
@@ -50,7 +50,7 @@ class ProductsJsonParserTest extends TestCase
             'dummyProperty1' => 1,
             'dummyProperty2' => 1,
         ]);
-        $result = $parserService->parseJson($incorrectJson);
+        $result = $parserService->parse($incorrectJson);
         $this->assertNull($result);
     }
 

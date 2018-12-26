@@ -5,7 +5,6 @@ namespace Tests\Feature\Api\V1;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Services\AdminApi\ProductsJsonParserService;
 
 class ProductFeatureTest extends TestCase
 {
@@ -17,8 +16,7 @@ class ProductFeatureTest extends TestCase
     {
         parent::setUp();
 
-        $parser = new \App\Services\AdminApi\ProductsJsonParserService();
-        $seedData = $parser->parseSeedProductsData();
+        $seedData = \ProductsImportDataParser::parseSeedProductsData();
         $this->_seedsProductsData = collect($seedData);
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Services\AdminApi\ProductsJsonParserService;
+use App\Services\AdminApi\ProductsImportDataParserInterface;
 use App\Model\Product;
 
 class ProductsJsonSeeder extends Seeder
@@ -11,9 +11,8 @@ class ProductsJsonSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(ProductsImportDataParserInterface $parserService)
     {
-        $parserService = new ProductsJsonParserService();
         $productsJson = $parserService->parseSeedProductsData();
 
         $collectionMap = [];

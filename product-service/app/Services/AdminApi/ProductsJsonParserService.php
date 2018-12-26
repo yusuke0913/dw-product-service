@@ -4,11 +4,11 @@ namespace App\Services\AdminApi;
 
 use App\Model\Product;
 
-class ProductsJsonParserService
+class ProductsJsonParserService implements ProductsImportDataParserInterface
 {
     private static $_SEED_PRODUCTS_JSON_FILE_PATH = "database/seeds/products.json";
 
-    public function parseJson($json)
+    public function parse($json)
     {
         $result = json_decode($json, true);
 
@@ -43,6 +43,6 @@ class ProductsJsonParserService
     public function parseSeedProductsData()
     {
         $json = self::loadSeedProductsJson();
-        return $this->parseJson($json);
+        return $this->parse($json);
     }
 }

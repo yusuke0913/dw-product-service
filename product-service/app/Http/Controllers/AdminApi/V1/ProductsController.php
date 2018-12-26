@@ -4,7 +4,8 @@ namespace App\Http\Controllers\AdminApi\V1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\AdminApi\ProductsJsonParserService;
+use App\Services\AdminApi\ProductsImportDataParserInterface;
+
 use App\Model\Product;
 use App\Model\ImportLock;
 
@@ -13,14 +14,14 @@ class ProductsController extends AdminApiBaseController
     /**
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param ProductsImportDataParserInterface $parserService
      * @return \Illuminate\Http\Response
      */
-    public function import(Request $request)
+    public function import(Request $request, ProductsImportDataParserInterface $parserService)
     {
         $productsJson = $request->getContent();
 
-        $parserService = new ProductsJsonParserService();
-        $productsData = $parserService->parseJson($productsJson);
+        $productsData = $parserService->parse($productsJson);
 
         if ($productsData === null) {
             throw new \App\Exceptions\InvalidParameterException();
