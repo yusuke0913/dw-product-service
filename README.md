@@ -1,27 +1,23 @@
 # product-service
+This is a kind of product management tool. We provide simple APIs to import and retrieve product data by some keys such as collection id and size.
+
+## Tools and Why
 This product-service is developed in the environment which uses Laravel, MySQL, Docker, Kubernetes.
-
-## How do we build and run it?
-Please check Installation and Local dev environment sections.
-
-## What tools did you use?
-Laravel, MySQL, Docker, Kubernetes
-
-## Why did you use them?
 
 #### Why MySQL
 The service needs to retrieve products by some keys (such as size, collection_id) and process only one data import request at a time.
 In this case adapting relational database is a good option because it has indexes, locking and transaction features.
-At first I'm thinking to use DynamoDB as datastore but in the point of retrieving products, I decided to use MySQL.
+At first I was thinking to use DynamoDB as datastore but in the point of retrieving products, I decided to use MySQL.
  
 #### Why Laravel
 Laravel provides many useful features and especially Eloquent is so useful for working with MySQL.
 
 #### Why Docker and Kubernetes
-To prepare for high requests, I set up kubernetes and docker environment because It makes easier to scale up the service on Cloud Platforms such as AWS, GCP.
+To prepare for withstanding sudden spikes, I set up kubernetes and docker environment because it makes easier to scale up the service on Cloud Platforms such as AWS, GCP in the future.
 
-## Did you intentionally leave stuff out?
-I left collections table on MySQL out to reduce update queries on import request.
+#### Left out stuff
+I did not include collections table on MySQL to reduce update queries on import request.
+And Nodejs and DynamoDB was considered but soon left unused, because relational database with MySQL seems to be more suitable in this tool.
 
 ## Installation
 
@@ -31,10 +27,10 @@ To set up your local environment on Mac, you need to install docker and docker-c
 brew install docker docker-compose docker-machine
 ```
 
-You can also set up by kubernetes. Please check [here](k83/README.md)
+You can also set up by kubernetes (optional). Please check [here](k83/README.md) 
 
 ## Local dev environment
-You need to lanuch the docker containers and execute database migrations.
+You need to launch the docker containers and execute database migrations.
 
 ```sh
 # launch the docker containers
@@ -45,7 +41,7 @@ docker exec -it product-service-php sh
 php artisan migrate --seed
 ```
 
-## API Documentation
+## APIs Documentation
 
 | Method | Url                                                                                                                         | Description                                                     |
 | ------ | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
