@@ -26,15 +26,13 @@ class ProductsController extends AdminApiBaseController
             throw new \App\Exceptions\InvalidParameterException();
         }
 
-        $createdCollections = collect();
-        $createdProducts = collect();
-        $updatedCollections = collect();
-        $updatedProducts = collect();
-
         try {
-            \DB::transaction(function () use ($productsData, $createdCollections, $createdProducts, $updatedCollections, $updatedProducts) {
+            \DB::transaction(function () use ($productsData) {
+
                 // Lock to import only one data at a time
                 $importLock = ImportLock::lock();
+
+                $createdProducts = collect();
 
                 $productMap = Product::allByMapWithKeys();
 
@@ -54,7 +52,6 @@ class ProductsController extends AdminApiBaseController
 
                             if ($currentProduct->collection_id != $collectionId || $currentProduct->size != $size) {
                                 $bulkUpdateProductIds[] = $productId;
-                                $updatedProducts[$productId] = $currentProduct;
                                 // logger("productId=${productId}  collectionId=${collectionId} size=${size}   currentProduct=${currentProduct}");
                             }
 
@@ -72,7 +69,6 @@ class ProductsController extends AdminApiBaseController
 
                             if ($shouldUpdate) {
                                 $currentProduct->save();
-                                $updatedProducts[$productId] = $currentProduct;
                             }
                         } else {
                             $product = new Product();
@@ -90,10 +86,6 @@ class ProductsController extends AdminApiBaseController
                         Product::WhereIn('id', $bulkUpdateProductIds)
                             ->update(['size' => $size, 'collection_id' => $collectionId]);
                     }
-                }
-
-                if ($createdCollections->isNotEmpty()) {
-                    Collection::bulkInsert($createdCollections);
                 }
 
                 if ($createdProducts->isNotEmpty()) {

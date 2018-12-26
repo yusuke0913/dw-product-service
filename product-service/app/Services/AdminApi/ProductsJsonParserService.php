@@ -34,14 +34,10 @@ class ProductsJsonParserService
         return true;
     }
 
-    public static function loadJsonFile($filePath)
-    {
-        return \File::get($filePath);
-    }
-
     public static function loadSeedProductsJson()
     {
-        return self::loadJsonFile(base_path().'/'.self::$_SEED_PRODUCTS_JSON_FILE_PATH);
+        $path = base_path() . '/' . self::$_SEED_PRODUCTS_JSON_FILE_PATH;
+        return \File::get($path);
     }
 
     public function parseSeedProductsData()

@@ -82,7 +82,7 @@ class ProductTest extends TestCase
      */
     public function test_RequestByPost_WithAddTwoProductsJson_Return200()
     {
-        $json = ProductsJsonParserService::loadJsonFile("tests/Feature/AdminApi/import/addTwoProducts.json");
+        $json = \File::get("tests/Feature/AdminApi/import/addTwoProducts.json");
         $param = json_decode($json, true);
 
         $targetProductIds = collect($param)->map(function ($row) {
@@ -108,7 +108,7 @@ class ProductTest extends TestCase
      */
     public function test_RequestByPost_WithChangeThreeProductsName_Return200()
     {
-        $json = ProductsJsonParserService::loadJsonFile("tests/Feature/AdminApi/import/changeThreeProductsNameFromTheSeed.json");
+        $json = \File::get("tests/Feature/AdminApi/import/changeThreeProductsNameFromTheSeed.json");
         $param = json_decode($json, true);
 
         $targetProductIds = collect($param)->map(function ($row) {

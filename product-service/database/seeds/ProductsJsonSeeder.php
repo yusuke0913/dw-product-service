@@ -14,8 +14,7 @@ class ProductsJsonSeeder extends Seeder
     public function run()
     {
         $parserService = new ProductsJsonParserService();
-        $json = ProductsJsonParserService::loadSeedProductsJson();
-        $productsJson= $parserService->parseJson($json);
+        $productsJson = $parserService->parseSeedProductsData();
 
         $collectionMap = [];
         $productMap = [];
