@@ -2,7 +2,7 @@
 This product-service is developed in the environment which uses Laravel, MySQL, Docker, Kubernetes.
 
 ## How do we build and run it?
-Please check Installation and Local dev environment section.
+Please check Installation and Local dev environment sections.
 
 ## What tools did you use?
 Laravel, MySQL, Docker, Kubernetes
@@ -10,18 +10,18 @@ Laravel, MySQL, Docker, Kubernetes
 ## Why did you use them?
 
 #### Why MySQL
-I need to retrieve products by some keys (such as size, collection_id) and import data at a time.
-In this case relational database is a good option because it has indexes, locking and transaction systems.
+The service needs to retrieve products by some keys (such as size, collection_id) and process only one data import request at a time.
+In this case adapting relational database is a good option because it has indexes, locking and transaction features.
 At first I'm thinking to use DynamoDB as datastore but in the point of retrieving products, I decided to use MySQL.
  
 #### Why Laravel
 Laravel provides many useful features and especially Eloquent is so useful for working with MySQL.
 
 #### Why Docker and Kubernetes
-To prepare for high requests, I set up kubernetes and docker environment because It makes easier to scale up the service on the cloud platform such as AWS, GCP.
+To prepare for high requests, I set up kubernetes and docker environment because It makes easier to scale up the service on Cloud Platforms such as AWS, GCP.
 
 ## Did you intentionally leave stuff out?
-I left collections table on MySQL out to reduce queries on import request.
+I left collections table on MySQL out to reduce update queries on import request.
 
 ## Installation
 
